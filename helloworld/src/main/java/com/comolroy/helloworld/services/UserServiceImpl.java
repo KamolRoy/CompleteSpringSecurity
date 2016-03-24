@@ -22,8 +22,10 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.TransactionSynchronizationAdapter;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
+import org.springframework.validation.BindingResult;
 
 import com.comolroy.helloworld.dto.ForgotPasswordForm;
+import com.comolroy.helloworld.dto.ResetPasswordForm;
 import com.comolroy.helloworld.dto.SignupForm;
 import com.comolroy.helloworld.dto.UserDetailsImpl;
 import com.comolroy.helloworld.entities.User;
@@ -182,11 +184,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 	}
 	
 	/*
-	
 	 * (non-Javadoc)
 	 * @see com.comolroy.helloworld.services.UserService#resetPassword(java.lang.String, com.comolroy.helloworld.dto.ResetPasswordForm, org.springframework.validation.BindingResult)
 	 * This method is called from UserController Reset Password Post method
-	 
+*/	 
 
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED, readOnly=false)
@@ -205,7 +206,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 		user.setForgotPasswordCode(null);
 		user.setPassword(passwordEncoder.encode(resetPasswordForm.getPassword().trim()));
 		getCurrentSession().saveOrUpdate(user);
-	}*/
+	}
 
 	/*
 	 * (non-Javadoc)

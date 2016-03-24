@@ -2,7 +2,10 @@ package com.comolroy.helloworld.services;
 
 import java.util.List;
 
+import org.springframework.validation.BindingResult;
+
 import com.comolroy.helloworld.dto.ForgotPasswordForm;
+import com.comolroy.helloworld.dto.ResetPasswordForm;
 import com.comolroy.helloworld.dto.SignupForm;
 import com.comolroy.helloworld.entities.User;
 
@@ -18,8 +21,8 @@ public interface UserService {
 	
 	public abstract User loadUserByEmail(String email);
 
-//	public abstract void resetPassword(String forgotPasswordCode, ResetPasswordForm resetPasswordForm,
-//			BindingResult result);
+	public abstract void resetPassword(String forgotPasswordCode, ResetPasswordForm resetPasswordForm,
+			BindingResult result);
 
 
 }

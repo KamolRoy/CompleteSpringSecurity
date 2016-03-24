@@ -26,6 +26,7 @@ import com.comolroy.helloworld.entities.User;
 import com.comolroy.helloworld.services.UserService;
 import com.comolroy.helloworld.util.MyUtil;
 import com.comolroy.helloworld.validator.ForgotPasswordFormValidator;
+import com.comolroy.helloworld.validator.ResetPasswordFormValidator;
 import com.comolroy.helloworld.validator.SignupFormValidator;
 
 /*
@@ -41,33 +42,33 @@ public class RootController {
 	private UserService userService;
 	private SignupFormValidator signupFormValidator;
 	private ForgotPasswordFormValidator forgotPasswordFormValidator;
-//	private ResetPasswordFormValidator resetPasswordFormValidator;
+	private ResetPasswordFormValidator resetPasswordFormValidator;
 
 	@Autowired
-	public RootController( UserService userService, SignupFormValidator signupFormValidator, ForgotPasswordFormValidator forgotPasswordFormValidator
-//			,ResetPasswordFormValidator resetPasswordFormValidator
-			) {
+	public RootController(UserService userService, SignupFormValidator signupFormValidator,
+			ForgotPasswordFormValidator forgotPasswordFormValidator,
+			ResetPasswordFormValidator resetPasswordFormValidator) {
 		this.userService = userService;
 		this.signupFormValidator = signupFormValidator;
 		this.forgotPasswordFormValidator = forgotPasswordFormValidator;
-//		this.resetPasswordFormValidator = resetPasswordFormValidator;
+		 this.resetPasswordFormValidator = resetPasswordFormValidator;
 	}
 
 	@InitBinder("signupForm")
 	protected void initSignupBinder(WebDataBinder binder) {
 		binder.setValidator(signupFormValidator);
 	}
-	
+
 	@InitBinder("forgotPasswordForm")
 	protected void initForgotPasswordFormBinder(WebDataBinder binder) {
 		binder.setValidator(forgotPasswordFormValidator);
 	}
-	
-	/*@InitBinder("resetPasswordForm")
+
+	@InitBinder("resetPasswordForm")
 	protected void initResetPasswordFormBinder(WebDataBinder binder) {
 		binder.setValidator(resetPasswordFormValidator);
 	}
-*/
+
 	@RequestMapping("/")
 	// @ResponseBody
 	public String home() throws MessagingException {
@@ -111,7 +112,6 @@ public class RootController {
 		return "redirect:/";
 	}
 
-	
 	/*
 	 * While user click on forgot password button in login form
 	 */
@@ -139,11 +139,10 @@ public class RootController {
 		return "redirect:/";
 	}
 
-	
-	 /*
-	  *  While user click the reset password link that sent by email
-	  */
-	 
+	/*
+	 * While user click the reset password link that sent by email
+	 */
+
 	@RequestMapping(value = "/reset-password/{forgotPasswordCode}", method = RequestMethod.GET)
 	public String resetPassword(@PathVariable("forgotPasswordCode") String forgotPasswordCode, Model model)
 			throws ServletException {
@@ -151,12 +150,11 @@ public class RootController {
 		return "reset-password";
 	}
 
-	
-	 /*
-	  *  While user click on submit button of reset password from
-	  */
-	 
-	/*@RequestMapping(value = "/reset-password/{forgotPasswordCode}", method = RequestMethod.POST)
+	/*
+	 * While user click on submit button of reset password from
+	 */
+
+	@RequestMapping(value = "/reset-password/{forgotPasswordCode}", method = RequestMethod.POST)
 	public String resetPassword(@PathVariable("forgotPasswordCode") String forgotPasswordCode,
 			@ModelAttribute("resetPasswordForm") @Valid ResetPasswordForm resetPasswordForm, BindingResult result,
 			RedirectAttributes redirectAttribute) {
@@ -172,5 +170,5 @@ public class RootController {
 		MyUtil.flash(redirectAttribute, "success", "passwordChanged");
 
 		return "redirect:/login";
-	}*/
+	}
 }

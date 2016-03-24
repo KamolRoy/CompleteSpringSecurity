@@ -1,10 +1,12 @@
 package com.comolroy.helloworld.validator;
 
+import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 import com.comolroy.helloworld.dto.ResetPasswordForm;
 
+@Component
 public class ResetPasswordFormValidator extends LocalValidatorFactoryBean {
 
 	@Override
