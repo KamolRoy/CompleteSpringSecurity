@@ -1,7 +1,7 @@
 
 <%@ include file="/WEB-INF/include/header.jsp"%>
 
-<div class="container">
+<div class="container" style="max-width:450px">
 
 	<div class="panel panel-primary">
 

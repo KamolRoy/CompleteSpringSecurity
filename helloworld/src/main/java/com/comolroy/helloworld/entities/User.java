@@ -17,6 +17,8 @@ import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.Table;
 
+import com.comolroy.helloworld.util.MyUtil;
+
 @Entity
 @Table(name = "usr", indexes = { @Index(columnList = "email", unique = true),
 		
@@ -30,7 +32,7 @@ public class User {
 	public static final int RANDOM_LEANGTH = 16;
 
 	public static enum Role {
-		UNVERIFIED, BLOCKED, ADMIN
+		UNVERIFIED, BLOCKED, ADMIN, DBA
 	}
 
 	@Id
@@ -129,11 +131,24 @@ public class User {
 	public void setForgotPasswordCode(String forgotPasswordCode) {
 		this.forgotpasswordcode = forgotPasswordCode;
 	}
+	
+	public boolean isAdmin() {
+		return roles.contains(Role.ADMIN);
+	}
+	
+	public boolean isEditable(){
+		User loggedIn = MyUtil.getSessionUser();
+		if(loggedIn == null)
+			return false;
+		return loggedIn.isAdmin() || loggedIn.getId() == this.id;
+	}
 
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", email=" + email + ", name=" + name + ", password=" + password
 				+ ", varificationCode=" + verificationcode + ", roles=" + roles + "]";
 	}
+
+	
 
 }

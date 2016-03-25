@@ -28,6 +28,7 @@ import com.comolroy.helloworld.dto.ForgotPasswordForm;
 import com.comolroy.helloworld.dto.ResetPasswordForm;
 import com.comolroy.helloworld.dto.SignupForm;
 import com.comolroy.helloworld.dto.UserDetailsImpl;
+import com.comolroy.helloworld.dto.UserEditForm;
 import com.comolroy.helloworld.entities.User;
 import com.comolroy.helloworld.entities.User.Role;
 import com.comolroy.helloworld.mail.MailSender;
@@ -222,8 +223,54 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 		return (User) crit.uniqueResult();
 	}
 	
+	/*
+	 * Called form findOne method
+	 */
+	public User loadUserById(long userId) {
+		Criteria crit = getCurrentSession().createCriteria(User.class);
+		crit.add(Restrictions.idEq(userId));
+		return (User) crit.uniqueResult();
+	}
 	
 	
+	
+	
+	/*
+	 * (non-Javadoc)
+	 * @see com.comolroy.helloworld.services.UserService#findOne(long)
+	 * This method is called from User Controller getByID method
+	 */
+	@Override
+	public User findOne(long userId) {
+		User user = loadUserById(userId);
+		User loggedIn = MyUtil.getSessionUser();
+		
+		if(loggedIn == null || loggedIn.getId() != user.getId() && !loggedIn.isAdmin()){
+			//hide user email id
+			user.setEmail("Confidential");
+		}
+		
+		return user;
+	}
+	
+	
+	/*
+	 * (non-Javadoc)
+	 * @see com.comolroy.helloworld.services.UserService#update(long, com.comolroy.helloworld.dto.UserEditForm)
+	 * Called form User Controller edit method.
+	 */
+
+	@Override
+	@Transactional(propagation=Propagation.REQUIRED, readOnly=false)
+	public void update(long userId, UserEditForm userEditForm) {
+		User loggedIn = MyUtil.getSessionUser();
+		MyUtil.validate(loggedIn.isAdmin() || loggedIn.getId() == userId, "noPermission");
+		User user = loadUserById(userId);
+		user.setName(userEditForm.getName());
+		if(loggedIn.isAdmin())
+			user.setRoles(userEditForm.getRoles());
+		getCurrentSession().saveOrUpdate(user);
+	}
 
 	@Override
 	// This method is written because of implementing UserDetailsService

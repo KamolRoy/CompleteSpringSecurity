@@ -11,17 +11,18 @@ public class ResetPasswordFormValidator extends LocalValidatorFactoryBean {
 
 	@Override
 	public boolean supports(Class<?> clazz) {
-		
+
 		return clazz.isAssignableFrom(ResetPasswordForm.class);
 	}
 
 	@Override
 	public void validate(Object target, Errors errors, Object... validationHints) {
 		super.validate(target, errors, validationHints);
-		if(!errors.hasErrors()){
+		if (!errors.hasErrors()) {
 			ResetPasswordForm resetPasswordForm = (ResetPasswordForm) target;
-			if(!resetPasswordForm.getPassword().equals(resetPasswordForm.getRetypePassword())){
-				//The method is different, because it is a global error
+			if (!resetPasswordForm.getPassword().equals(resetPasswordForm.getRetypePassword())) {
+				// The method is different, because it is a global error. It
+				// will appear in <form:errors /> of reset-password jsp
 				errors.reject("passwordsDoNotMatch");
 			}
 		}

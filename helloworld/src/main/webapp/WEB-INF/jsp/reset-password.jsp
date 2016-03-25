@@ -9,7 +9,7 @@
 		<div class="panel-body">
 
 			<form:form modelAttribute="resetPasswordForm" role="form">
-
+					<!-- Global error will apear here  -->
 				<form:errors />
 
 				<div class="form-group">

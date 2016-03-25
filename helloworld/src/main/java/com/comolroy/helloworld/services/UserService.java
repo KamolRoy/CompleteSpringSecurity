@@ -7,6 +7,7 @@ import org.springframework.validation.BindingResult;
 import com.comolroy.helloworld.dto.ForgotPasswordForm;
 import com.comolroy.helloworld.dto.ResetPasswordForm;
 import com.comolroy.helloworld.dto.SignupForm;
+import com.comolroy.helloworld.dto.UserEditForm;
 import com.comolroy.helloworld.entities.User;
 
 public interface UserService {
@@ -23,6 +24,10 @@ public interface UserService {
 
 	public abstract void resetPassword(String forgotPasswordCode, ResetPasswordForm resetPasswordForm,
 			BindingResult result);
+
+	public abstract User findOne(long userID);
+
+	public abstract void update(long userId, UserEditForm userEditForm);
 
 
 }
